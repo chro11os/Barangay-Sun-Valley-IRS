@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('incidents', function (Blueprint $table) {
             $table->id();
-            $table->timestamps('date_reported');
+            $table->timestamp('date_reported');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('incident_type');
             $table->text('description');
-            $table->timestamps();
-            $table->enum('status', ['Investigating', 'Resolved', 'rejected'])->default('pending');
+            $table->enum('status', ['Investigating', 'Resolved', 'rejected', 'pending'])->default('pending');
             $table->timestamps();
         });
     }
