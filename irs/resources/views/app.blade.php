@@ -36,19 +36,10 @@
             <a href="#" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">Reports</a>
             <a href="#" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">Contact</a>
         </div>
-<<<<<<< HEAD
     </nav>
     <div class="container mx-auto p-7">
-        <div class="bg-white shadow-md rounded-lg p-6">
-            <h1 class="text-4xl font-bold mb-4 text-gray-800">Sun-Valley Incident Report System</h1>
-            <p class="text-gray-600 mb-6">Report incidents promptly and efficiently.</p>
-            <button class="btn bg-blue-500 text-white px-4 py-2 rounded-md">Report an Incident</button>
-            
-=======
-        <div class="flex items-center">
             <a href="{{ route('login') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Login</a>
             <a href="{{ route('register') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Register</a>
->>>>>>> e596290 (Add Incident Report Form to app.blade.php)
         </div>
     </div>
 </nav>
