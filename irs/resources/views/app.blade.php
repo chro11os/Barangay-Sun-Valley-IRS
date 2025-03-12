@@ -32,12 +32,11 @@
     <div class="flex items-center justify-between">
         <img src="/img/sun-valley-logo.jpg" alt="Sun Valley Logo" class="rounded-full h-10 w-10 ml-4">
         <div class="flex-1 text-center">
-            <a href="#app.blade.php" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">Home</a>
-            <a href="#" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">Reports</a>
-            <a href="#" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">Contact</a>
+            <a href="{{ route('report') }}" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">Home</a>
+            <a href="{{ route('track') }}" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">Reports</a>
+            <a href="{{ route('about') }}" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">Contact</a>
         </div>
-    </nav>
-    <div class="container mx-auto p-7">
+    <div class="flex items-center">
             <a href="{{ route('login') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Login</a>
             <a href="{{ route('register') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Register</a>
         </div>
