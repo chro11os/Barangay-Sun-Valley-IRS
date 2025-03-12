@@ -33,3 +33,16 @@ require __DIR__.'/auth.php';
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+Route::get('/app', function () {
+    return view('app');
+})->name('report');
+
+Route::get('/track', function () {
+    return view('track');
+})->name('track');
