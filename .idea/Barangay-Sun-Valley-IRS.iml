@@ -135,6 +135,7 @@
       <excludeFolder url="file://$MODULE_DIR$/irs/vendor/vlucas/phpdotenv" />
       <excludeFolder url="file://$MODULE_DIR$/irs/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/irs/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/irs/vendor/laravel/ui" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
