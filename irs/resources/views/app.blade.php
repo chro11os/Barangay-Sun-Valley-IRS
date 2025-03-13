@@ -52,28 +52,33 @@
         </button>
 
         <div id="reportForm" class="hidden mt-8">
-            <form id="incidentForm" action="#" method="POST" enctype="multipart/form-data">
-                @csrf
+            <form id="incidentForm" action="{{ route('incidents.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label for="method" class="block text-gray-700 text-sm font-bold mb-2">Method:</label>
-                        <select id="method" name="method"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                            <option value="SMS">SMS</option>
-                            <option value="Walk-in">Walk-in</option>
-                            <option value="Website">Website</option>
-                        </select>
+                        @if(isset($methods) && $methods->count())
+                            <select id="method" name="method_id">
+                                @foreach ($methods as $method)
+                                    <option value="{{ $method->methodID }}">{{ $method->methodType }}</option>
+                                @endforeach
+                            </select>
+                        @else
+                            <p>No methods found.</p>
+                        @endif
                     </div>
                     <div>
-                        <label for="incident_type" class="block text-gray-700 text-sm font-bold mb-2">Incident
-                            Type:</label>
-                        <select id="incident_type" name="incident_type"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                            <option value="Theft">Theft</option>
-                            <option value="Assault">Assault</option>
-                            <option value="Vandalism">Vandalism</option>
-                            <!-- Add more incident types as needed -->
+                        <label for="incident_type" class="block text-gray-700 text-sm font-bold mb-2">Incident Type:</label>
+                        @if(isset($incidentTypes) && $incidentTypes->count())
+                        <select name="incident_type">
+                            @foreach ($incidentTypes as $type)
+                                <option value="{{ $type->incidentTypeID }}">{{ $type->incidentType }}</option>
+                            @endforeach
                         </select>
+                        @else
+                            <p>No incident types found.</p>
+                        @endif
                     </div>
 
                     <div>
@@ -95,16 +100,15 @@
                     </div>
                     <div>
                         <label for="location" class="block text-gray-700 text-sm font-bold mb-2">Location:</label>
-                        <select id="location" name="location"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                            @php
-                                $locationFile = base_path('resources/views/locations.txt');
-                                $locations = file($locationFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-                            @endphp
-                            @foreach ($locations as $location)
-                                <option value="{{ $location }}">{{ $location }}</option>
-                            @endforeach
-                        </select>
+                        @if(isset($locations) && count($locations) > 0)
+                            <select id="location" name="location" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                @foreach ($locations as $location)
+                                    <option value="{{ $location }}">{{ $location }}</option>
+                                @endforeach
+                            </select>
+                        @else
+                            <p>No locations found.</p>
+                        @endif
                     </div>
 
                     <div>

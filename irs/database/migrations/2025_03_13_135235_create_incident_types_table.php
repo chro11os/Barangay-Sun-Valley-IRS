@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('incident_updates', function (Blueprint $table) {
+        Schema::create('incident_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('incident_id')->constrained('incidents')->onDelete('cascade');
-            $table->foreignID('statusUpdateID')->constrained('status')->onDelete('cascade');
-            $table->timestamp('update_time')->useCurrent();
-            $table->string('updated_by');
             $table->timestamps();
         });
     }
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('incident_updates');
+        Schema::dropIfExists('incident_types');
     }
 };
