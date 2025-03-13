@@ -27,7 +27,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 bg-fixed">
 <nav class="bg-gray-800 shadow-md p-4">
     <div class="flex items-center justify-between">
         <img src="/img/sun-valley-logo.jpg" alt="Sun Valley Logo" class="rounded-full h-10 w-10 ml-4">
@@ -50,7 +50,7 @@
                 class="btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
             Report an Incident
         </button>
-
+        
         <div id="reportForm" class="hidden mt-8">
             <form id="incidentForm" action="#" method="POST" enctype="multipart/form-data">
                 @csrf
