@@ -32,18 +32,35 @@
     <div class="flex items-center justify-between">
         <img src="/img/sun-valley-logo.jpg" alt="Sun Valley Logo" class="rounded-full h-10 w-10 ml-4">
         <p class="text-sm color white p-2 font-bold text-white">Sun Valley IRS</p>
+
         <div class="flex-1 text-center">
-            <a href="{{ route('adminDashboard') }}" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">AdminDashTest</a>
-            <a href="{{ route('report') }}" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">Home</a>
-            <a href="{{ route('track') }}" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">Reports</a>
-            <a href="{{ route('about') }}" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">Contact</a>
+            <a href="{{ route('adminDashboard') }}" class="nav-link text-white px-3 py-2 rounded-md text-sm font-small">AdminDashTest</a>
+            <a href="{{ route('report') }}" class="nav-link text-white px-3 py-2 rounded-md text-md font-small">Home</a>
+            <a href="{{ route('track') }}" class="nav-link text-white px-3 py-2 rounded-md text-md font-small">Reports</a>
+            <a href="{{ route('about') }}" class="nav-link text-white px-3 py-2 rounded-md text-md font-small">Contact</a>
         </div>
-    <div class="flex items-center">
-            <a href="{{ route('login') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Login</a>
-            <a href="{{ route('register') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Register</a>
+
+        <div class="flex items-center space-x-4">
+            @guest
+                <a href="{{ route('login') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Login</a>
+                <a href="{{ route('register') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Register</a>
+            @else
+                <div class="relative group">
+                    <button class="text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700 focus:outline-none">
+                        {{ Auth::user()->name }}
+                    </button>
+                    <div class="absolute hidden group-hover:block bg-gray-800 text-white right-0 mt-2 w-48 rounded shadow-lg">
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-700">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            @endguest
         </div>
     </div>
 </nav>
+
 
 
 
