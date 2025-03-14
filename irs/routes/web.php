@@ -51,3 +51,8 @@ Route::get('/about', function () {
 Route::get('/track', function () {
     return view('track');
 })->name('track');
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/AdminDashboard', [AdminDashboardController::class, 'index'])
+        ->name('adminDashboard');
+});
