@@ -17,7 +17,7 @@ class Incident extends Model
 
     protected $fillable = [
         'incidentType_id', 'method', 'reporter_id', 
-        'date_reported', 'location',
+        'date_reported', 'location', 'address', 
         'description', 'attachments', 'update_id'
     ];
 

@@ -27,7 +27,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 bg-fixed">
+<body class="bg-cover bg-center bg-fixed" style="background-image: url('/img/backgound.png');">
 <nav class="bg-gray-800 shadow-md p-4">
     <div class="flex items-center justify-between">
         <img src="/img/sun-valley-logo.jpg" alt="Sun Valley Logo" class="rounded-full h-10 w-10 ml-4">
@@ -42,6 +42,9 @@
         </div>
     </div>
 </nav>
+
+
+
 <div class="container mx-auto p-7 flex justify-center items-center h-screen">
     <div class="bg-white shadow-md rounded-lg p-8 text-center w-full md:w-3/4 lg:w-1/2">
         <h1 class="text-4xl font-bold mb-4 text-gray-800">Sun-Valley Incident Report System</h1>
@@ -95,7 +98,7 @@
 
                     <div>
                         <label for="incident_date" class="block text-gray-700 text-sm font-bold mb-2">Date Reported:</label>
-                        <input type="date" id="incident_date" name="incident_date"
+                        <input type="datetime-local" id="incident_date" name="incident_date"
                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                     <div>
@@ -109,6 +112,13 @@
                         @else
                             <p>No locations found.</p>
                         @endif
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label for="address" class="block text-gray-700 text-sm font-bold mb-2">Reported Address:</label>
+                        <input type="text" id="address" name="address"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            placeholder="Enter the address that you are reporting">
                     </div>
 
                     <div>
@@ -149,6 +159,13 @@
         </div>
     </div>
 </div>
+
+    @if(session('success'))
+        <script>
+            alert("{{ session('success') }}");
+        </script>
+    @endif
+
 <script>
     document.getElementById('reportButton').addEventListener('click', function () {
         document.getElementById('reportForm').classList.remove('hidden');
@@ -163,6 +180,7 @@
             alert('Please enter either an email address or a phone number.');
             event.preventDefault(); // Prevent form submission
         }
+
     });
 </script>
 </body>

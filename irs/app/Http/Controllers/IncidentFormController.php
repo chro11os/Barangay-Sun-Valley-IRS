@@ -41,7 +41,8 @@ class IncidentFormController extends Controller
             'phone_number' => 'nullable|string',
             'incident_details' => 'required|string',
             'location' => 'required|string',
-            'incident_date' => 'required|date',
+            'address' => 'nullable|string',
+            'incident_date' => 'required|date_format:Y-m-d\TH:i',
             'attachments.*' => 'nullable|file|mimes:jpg,png,pdf|max:2048',
         ]);
     
@@ -71,6 +72,7 @@ class IncidentFormController extends Controller
         // Create Incident
         $incident = Incident::create([
             'reporter_id' => $reporter->id,
+            'address' =>$request->address,
             'incidentType_id' => $request->incident_type,
             'location' => $request->location,
             'description' => $request->incident_details,
@@ -93,8 +95,8 @@ class IncidentFormController extends Controller
         }
     
         // Redirect user to tracking page
-        return redirect()->route('incident.track', ['trackingNumber' => $incidentUpdate->id])
-                         ->with('success', 'Incident report submitted successfully! Your tracking number is ' . $incidentUpdate->id);
+        return redirect()->route('report') // Assuming 'report' is the route for your app.blade.php
+                 ->with('success', 'Thank you for submitting! Here is your tracking number: ' . $incidentUpdate->id);
     }
     
     
