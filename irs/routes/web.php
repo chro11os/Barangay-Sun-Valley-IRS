@@ -22,6 +22,9 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// Admin Dashboard
+Route::get('/admin/AdminDashboard', [AdminDashboardController::class, 'index'])->name('adminDashboard');
+
 Route::get('/', [IncidentFormController::class, 'create'])->name('home');
 Route::get('/app', [IncidentFormController::class, 'create'])->name('report');
 Route::get('/track/search', [IncidentFormController::class, 'trackIncident'])->name('trackIncident');
