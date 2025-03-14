@@ -23,6 +23,8 @@ Route::get('/dashboard', function () {
 
 Route::get('/', [IncidentFormController::class, 'create'])->name('home');
 Route::get('/app', [IncidentFormController::class, 'create'])->name('report');
+Route::get('/track/search', [IncidentFormController::class, 'trackIncident'])->name('trackIncident');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/incidents', [IncidentFormController::class, 'index'])->name('incidents.index');
