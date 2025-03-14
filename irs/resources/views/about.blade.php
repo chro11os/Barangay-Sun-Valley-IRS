@@ -24,7 +24,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-cover bg-center bg-fixed" style="background-image: url('/img/background.png');">
 
 <!-- Navigation Bar -->
 <nav class="bg-gray-800 shadow-md p-4">
@@ -48,11 +48,12 @@
         <h1 class="text-4xl font-bold mb-6 text-gray-800">About Barangay Sun Valley</h1>
         <img src="/img/sun-valley-logo.jpg" alt="Sun Valley Logo" class="rounded-full h-32 w-32 mb-6 shadow-lg block mx-auto">
         <p class="text-gray-700 text-lg leading-relaxed">
-                    Barangay Sun Valley is a vibrant community located in Parañaque City, Philippines. Dedicated to providing excellent service to its residents, Barangay Sun Valley strives to create a safe, healthy, and prosperous environment for all.
-                </p>
+            Barangay Sun Valley is a vibrant community located in Parañaque City, Philippines. Dedicated to providing excellent service to its residents, Barangay Sun Valley strives to create a safe, healthy, and prosperous environment for all.
+        </p>
     </div>
 
-    <div class="bg-white shadow-lg rounded-lg p-8 max-w-6xl mx-auto flex flex-col lg:flex-row gap-10">
+    <div class="bg-white shadow-lg rounded-lg p-8 max-w-6xl mx-auto">
+    <div class="flex flex-col lg:flex-row gap-10">
         <!-- Left: Contact Information -->
         <div class="lg:w-1/2">
             <h2 class="text-2xl font-semibold mb-4 text-gray-800 text-center">Important Contact Information</h2>
@@ -69,7 +70,7 @@
                 </ul>
             </div>
         </div>
-        
+
         <!-- Right: Google Maps -->
         <div class="lg:w-1/2 text-center">
             <h2 class="text-2xl font-semibold mb-4 text-gray-800">Our Location</h2>
@@ -86,10 +87,14 @@
         </div>
     </div>
 
-    <p class="text-gray-700 text-lg mt-6 text-center font-semibold">
-        "Serbisyong Tapat Para Sa Lahat!" - Serving with integrity for all.
-    </p>
+    <!-- Move the tagline outside the flex container -->
+    <div class="text-center mt-6">
+        <p class="text-gray-700 text-lg font-semibold">
+            "Serbisyong Tapat Para Sa Lahat!" - Serving with integrity for all.
+        </p>
+    </div>
 </div>
+
 
 </body>
 </html>

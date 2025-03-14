@@ -93,11 +93,49 @@ class IncidentFormController extends Controller
         if (!$incidentUpdate || !$incidentUpdate->id) {
             return back()->withErrors('Failed to create incident update.');
         }
+
+        
     
         // Redirect user to tracking page
         return redirect()->route('report') // Assuming 'report' is the route for your app.blade.php
                  ->with('success', 'Thank you for submitting! Here is your tracking number: ' . $incidentUpdate->id);
     }
+
+    public function trackIncident(Request $request)
+    {
+        $request->validate([
+            'incident_id' => 'required|string'
+        ]);
+    
+        // Find the incident update using the tracking number
+        $incidentUpdate = IncidentUpdate::where('id', $request->incident_id)
+                                        ->with('status') // Eager load status
+                                        ->first();
+    
+        if (!$incidentUpdate) {
+            return response()->json(['error' => 'Tracking number not found'], 404);
+        }
+    
+        // Find the related incident using the correct key (incident ID)
+        $incident = Incident::where('incident_id', $incidentUpdate->incident_id)->first();
+    
+        if (!$incident) {
+            return response()->json([
+                'status' => $incidentUpdate->status->status ?? 'No updates available', 
+                'details' => 'Incident record not found',
+                'date_reported' => 'Unknown date'
+            ]);
+        }
+    
+        return response()->json([
+            'status' => $incidentUpdate->status->status ?? 'No updates available', 
+            'details' => $incidentUpdate->status->description ?? 'No details available',
+            'date_reported' => $incident->date_reported ?? 'Unknown date'
+        ]);
+    } 
+    
+    
+
     
     
     
