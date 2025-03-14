@@ -12,9 +12,9 @@
 <nav class="bg-gray-800 shadow-md p-4">
     <div class="flex items-center justify-between">
         <img src="/img/sun-valley-logo.jpg" alt="Sun Valley Logo" class="rounded-full h-10 w-10 ml-4">
-        <div class="flex-1 text-center">
+        <a class="flex-1 text-center">
             <a href="{{ route('report') }}" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">Home</a>
-            <a href="{{ route('') }}"
+            <a href="{{ route('adminDashboard') }}" class="nav-link text-white px-3 py-2 rounded-md text-sm font-small">Admin Dash</a>
             <a href="{{ route('track') }}" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">Reports</a>
             <a href="{{ route('about') }}" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">Contact</a>
         </div>
@@ -25,13 +25,13 @@
     </div>
 </nav>
 <div class="container mx-auto py-10 px-6 max-w-4xl flex justify-center items-center h-screen">
-    <div class="bg-white shadow-lg rounded-lg p-8 text-center">
-        <h1 class="text-3xl font-bold mb-6 text-gray-800">Track Your Incident Report</h1>
+    <div class="bg-green-700 shadow-lg rounded-lg p-8 text-center text-yellow-100">
+        <h1 class="text-3xl font-bold mb-6 text-yellow-500">Track Your Incident Report</h1>
 
         <form id="trackReportForm" class="mb-6">
             <input type="text" id="incident_id" name="incident_id"
-                   class="w-full p-3 border rounded-md" placeholder="Enter Incident Report ID" required>
-            <button type="submit" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                   class="w-full p-3 border rounded-md bg-gree" placeholder="Enter Incident Report ID" required>
+            <button type="submit" class="mt-4 bg-green-950 text-yellow-100 px-4 py-2 rounded-md hover:bg-green-800 hover:text-yellow-200">
                 Track Report
             </button>
         </form>
