@@ -27,20 +27,39 @@
 <body class="bg-cover bg-center bg-fixed" style="background-image: url('/img/background.png');">
 
 <!-- Navigation Bar -->
-<nav class="bg-gray-800 shadow-md p-4">
+<nav class="bg-gray-800 shadow-md p-4 sticky top-0 z-50">
     <div class="flex items-center justify-between">
         <img src="/img/sun-valley-logo.jpg" alt="Sun Valley Logo" class="rounded-full h-10 w-10 ml-4">
+        <p class="text-sm color white p-2 font-bold text-white">Sun Valley IRS</p>
+
         <div class="flex-1 text-center">
-            <a href="{{ route('report') }}" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">Home</a>
-            <a href="{{ route('track') }}" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">Reports</a>
-            <a href="{{ route('about') }}" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">Contact</a>
+            <a href="{{ route('adminDashboard') }}" class="nav-link text-white px-3 py-2 rounded-md text-sm font-small">AdminDashTest</a>
+            <a href="{{ route('report') }}" class="nav-link text-white px-3 py-2 rounded-md text-md font-small">Home</a>
+            <a href="{{ route('track') }}" class="nav-link text-white px-3 py-2 rounded-md text-md font-small">Reports</a>
+            <a href="{{ route('about') }}" class="nav-link text-white px-3 py-2 rounded-md text-md font-small">Contact</a>
         </div>
-        <div class="flex items-center">
-            <a href="{{ route('login') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Login</a>
-            <a href="{{ route('register') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Register</a>
+
+        <div class="flex items-center space-x-4">
+            @guest
+                <a href="{{ route('login') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Login</a>
+                <a href="{{ route('register') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Register</a>
+            @else
+                <div class="relative group">
+                    <button class="text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700 focus:outline-none">
+                        {{ Auth::user()->name }}
+                    </button>
+                    <div class="absolute hidden group-hover:block bg-gray-800 text-white right-0 mt-2 w-48 rounded shadow-lg">
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-700">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            @endguest
         </div>
     </div>
 </nav>
+
 
 <!-- About Section -->
 <div class="container mx-auto py-10 px-6">
@@ -75,12 +94,12 @@
         <div class="lg:w-1/2 text-center">
             <h2 class="text-2xl font-semibold mb-4 text-gray-800">Our Location</h2>
             <div class="rounded-lg overflow-hidden shadow-lg">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d482.8660523891495!2d121.03218602547796!3d14.488798573107628!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397cefd48a2611d%3A0x573c320977ed0c2c!2sBarangay%20Sun%20Valley%20Administration%20Bldg.!5e0!3m2!1sen!2sph!4v1741767791220!5m2!1sen!2sph" 
-                    width="100%" 
-                    height="400" 
-                    style="border:0;" 
-                    allowfullscreen="" 
-                    loading="lazy" 
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d482.8660523891495!2d121.03218602547796!3d14.488798573107628!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397cefd48a2611d%3A0x573c320977ed0c2c!2sBarangay%20Sun%20Valley%20Administration%20Bldg.!5e0!3m2!1sen!2sph!4v1741767791220!5m2!1sen!2sph"
+                    width="100%"
+                    height="400"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
             </div>
