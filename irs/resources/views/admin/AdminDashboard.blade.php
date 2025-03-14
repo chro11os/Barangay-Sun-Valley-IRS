@@ -69,9 +69,15 @@
     <div class="container mx-auto mt-8">
         <h1 class="text-3xl font-bold text-center text-white mb-4 border-1 border-blackpurple bg-gray-800 px-4 py-2 rounded-lg">Admin Incident Reports</h1>
         <div class="flex justify-end mb-4">
+        @if(auth()->check() && auth()->user()->role_id >= 1 && auth()->user()->role_id <= 2)
             <button class="bg-green-600 hover:bg-green-900 text-yellow-100 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                 Add New Report
             </button>
+        @else
+            <button class="bg-green-600 hover:bg-green-900 text-yellow-100 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" disabled style="visibility: hidden;">
+                Add New Report
+            </button>
+        @endif
         </div>
         <table class="min-w-full bg-white shadow-md rounded">
             <thead>
@@ -91,8 +97,13 @@
                     <td class="border px-4 py-2">2023-10-01</td>
                     <td class="border px-4 py-2">New York</td>
                     <td class="border px-4 py-2">
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">Edit</button>
-                        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Delete</button>
+                        @if(auth()->check() && auth()->user()->role_id >= 1 && auth()->user()->role_id <= 2)
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">Edit</button>
+                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Delete</button>
+                        @else
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" disabled style="visibility: hidden;">Edit</button>
+                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded" disabled style="visibility: hidden;">Delete</button>
+                        @endif
                     </td>
                 </tr>
                 <!-- Add more rows as needed -->
