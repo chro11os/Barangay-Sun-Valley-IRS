@@ -25,3 +25,4 @@ class IncidentUpdate extends Model
         return $this->belongsTo(Status::class, 'status_updateid', 'status_update_id'); // Corrected foreign key
     }
 }
+ 

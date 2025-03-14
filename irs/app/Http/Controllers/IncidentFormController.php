@@ -132,7 +132,7 @@ class IncidentFormController extends Controller
             'details' => $incidentUpdate->status->description ?? 'No details available',
             'date_reported' => $incident->date_reported ?? 'Unknown date'
         ]);
-    }
+    } 
     
     
 

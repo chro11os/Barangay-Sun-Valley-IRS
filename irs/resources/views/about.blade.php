@@ -24,7 +24,7 @@
         }
     </style>
 </head>
-<body class="bg-cover bg-center bg-fixed" style="background-image: url('/img/backgound.png');">
+<body class="bg-cover bg-center bg-fixed" style="background-image: url('/img/background.png');">
 
 <!-- Navigation Bar -->
 <nav class="bg-gray-800 shadow-md p-4">

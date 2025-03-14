@@ -47,4 +47,4 @@ Route::get('/about', function () {
 
 Route::get('/track', function () {
     return view('track');
-})->name('track');
+})->name('track'); 

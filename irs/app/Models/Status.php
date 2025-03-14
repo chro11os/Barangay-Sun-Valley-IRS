@@ -20,3 +20,4 @@ class Status extends Model
         return $this->hasMany(IncidentUpdate::class, 'status_updateid', 'status_update_id'); // Corrected: foreignKey is now status_updateid
     }
 }
+ 

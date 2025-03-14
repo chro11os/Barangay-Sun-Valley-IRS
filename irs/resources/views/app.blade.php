@@ -27,7 +27,7 @@
         }
     </style>
 </head>
-<body class="bg-cover bg-center bg-fixed" style="background-image: url('/img/backgound.png');">
+<body class="bg-cover bg-center bg-fixed" style="background-image: url('/img/background.png');">
 <nav class="bg-gray-800 shadow-md p-4">
     <div class="flex items-center justify-between">
         <img src="/img/sun-valley-logo.jpg" alt="Sun Valley Logo" class="rounded-full h-10 w-10 ml-4">
