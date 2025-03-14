@@ -7,6 +7,7 @@
     @vite('resources/css/app.css')
     @vite('resources/js/app.jsx')
 </head>
+
 <body class="bg-gray-100">
 <nav class="bg-gray-800 shadow-md p-4">
     <div class="flex items-center justify-between">
@@ -16,7 +17,7 @@
             <a href="{{ route('track') }}" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">Reports</a>
             <a href="{{ route('about') }}" class="nav-link text-white px-3 py-2 rounded-md text-lg font-medium">Contact</a>
         </div>
-    <div class="flex items-center">
+    <div class="flex items-center"> 
             <a href="{{ route('login') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Login</a>
             <a href="{{ route('register') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Register</a>
         </div>
