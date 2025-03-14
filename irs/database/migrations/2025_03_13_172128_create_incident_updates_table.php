@@ -13,10 +13,6 @@ return new class extends Migration
     {
         Schema::create('incident_updates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('incident_id')->constrained('incidents')->onDelete('cascade');
-            $table->foreignID('statusUpdateID')->constrained('status')->onDelete('cascade');
-            $table->timestamp('update_time')->useCurrent();
-            $table->string('updated_by');
             $table->timestamps();
         });
     }

@@ -1,26 +1,37 @@
 <?php
+
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
+use Illuminate\Support\Str;
 
 class Incident extends Model
 {
+    use HasFactory;
+    protected $table = 'incidents'; // Match database table name
 
-    protected $table = 'incidents';
-    protected $primaryKey = 'incident_id';
+    protected $primaryKey = 'incident_id'; // Match your primary key
+
+    public $timestamps = false; 
 
     protected $fillable = [
-        'user_id',
-        'incident_type',
-        'description',
-        'date_reported',
+        'incidentType_id', 'method', 'reporter_id', 
+        'date_reported', 'location', 'address', 
+        'description', 'attachments', 'update_id'
     ];
 
-    public $timestamps = false;
+    protected $casts = [
+        'attachments' => 'array',
+    ];
 
-    public function user()
+    public function incidentType()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(IncidentType::class, 'incidentTypeId');
     }
+    public function incidentUpdate()
+    {
+        return $this->hasOne(IncidentUpdate::class, 'id', 'update_id'); // Link to tracking table
+    }
+
 }

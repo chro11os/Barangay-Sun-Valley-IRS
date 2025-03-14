@@ -4,8 +4,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\IncidentController;
+use App\Http\Controllers\IncidentFormController;
 use Illuminate\Support\Facades\Auth;
+use App\Models\IncidentType;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -20,9 +21,12 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/', [IncidentFormController::class, 'create'])->name('home');
+Route::get('/app', [IncidentFormController::class, 'create'])->name('report');
+
 Route::middleware('auth')->group(function () {
-    Route::get('/incidents', [IncidentController::class, 'index']);
-    Route::post('/incidents', [IncidentController::class, 'store']);
+    Route::get('/incidents', [IncidentFormController::class, 'index'])->name('incidents.index');
+    Route::post('/incidents', [IncidentFormController::class, 'store'])->name('incidents.store');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -38,10 +42,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/about', function () {
     return view('about');
 })->name('about');
-
-Route::get('/app', function () {
-    return view('app');
-})->name('report');
 
 Route::get('/track', function () {
     return view('track');
