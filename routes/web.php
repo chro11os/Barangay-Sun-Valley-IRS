@@ -26,6 +26,7 @@ Route::get('/dashboard', function () {
 
 // Admin Dashboard
 Route::get('/admin/AdminDashboard', [AdminDashboardController::class, 'index'])->name('adminDashboard');
+Route::get('/residentDashboard', [IncidentFormController::class, 'create'])->name('residentDashboard');
 
 Route::get('/', [IncidentFormController::class, 'create'])->name('home');
 Route::get('/app', [IncidentFormController::class, 'create'])->name('report');

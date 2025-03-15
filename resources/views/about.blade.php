@@ -44,17 +44,39 @@
                 <a href="{{ route('login') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Login</a>
                 <a href="{{ route('register') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Register</a>
             @else
-                <div class="relative group">
-                    <button class="text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700 focus:outline-none">
-                        {{ Auth::user()->name }}
-                    </button>
-                    <div class="absolute hidden group-hover:block bg-gray-800 text-white right-0 mt-2 w-48 rounded shadow-lg">
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-700">Logout</button>
-                        </form>
-                    </div>
+                <!-- logout dropdown -->
+            <div class="relative">
+                <button onclick="toggleDropdown()" class="text-white px-3 py-2 rounded-md text-sm font-small hover:bg-gray-700 focus:outline-none">
+                    {{ Auth::user()->name }}
+                </button>
+            
+                <!-- Dropdown Menu -->
+                <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-gray-800 text-white rounded shadow-lg opacity-0 scale-95 pointer-events-none transition-all duration-300">
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="block w-full text-left px-4 py-2 hover:bg-gray-700">Logout</button>
+                    </form>
                 </div>
+            </div>
+            
+            <script>
+                function toggleDropdown() {
+                    let dropdown = document.getElementById("dropdownMenu");
+                    dropdown.classList.toggle("opacity-100");
+                    dropdown.classList.toggle("scale-100");
+                    dropdown.classList.toggle("pointer-events-auto");
+                }
+            
+                // Close dropdown when clicking outside
+                document.addEventListener("click", function(event) {
+                    let dropdown = document.getElementById("dropdownMenu");
+                    let button = event.target.closest("button");
+                    if (!dropdown.contains(event.target) && button === null) {
+                        dropdown.classList.remove("opacity-100", "scale-100", "pointer-events-auto");
+                    }
+                });
+            </script>
+            <!-- Logout DropDown -->
             @endguest
         </div>
     </div>
