@@ -79,7 +79,7 @@
             <div class ="viewDash">
                 <a href="{{ route('residentDashboard') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">View Dashboard</a>
             </div>
-
+  
             <div id="reportResult" class="mt-6 hidden">
                 <h2 class="text-xl font-semibold">Report Details</h2>
                 <p id="status" class="text-lg mt-2"></p>

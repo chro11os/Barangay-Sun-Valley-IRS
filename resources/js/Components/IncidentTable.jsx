@@ -18,7 +18,7 @@ const IncidentTable = ({ incidents }) => {
     };
     fetchStatuses();
   }, []);
-
+ 
   const fetchIncidents = async () => {
     const { data, error } = await supabase.from("incident_updates").select("*");
     if (error) {

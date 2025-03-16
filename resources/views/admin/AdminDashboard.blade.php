@@ -88,7 +88,7 @@
     </div>
 </nav>
 
-
+ 
     <div class="container mx-auto mt-8">
         <div class="flex justify-end mb-4">
         <!-- @if(auth()->check() && auth()->user()->role_id >= 1 && auth()->user()->role_id <= 2)

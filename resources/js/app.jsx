@@ -31,3 +31,4 @@ createInertiaApp({
 // Make sure that App is not rendered on the whole page.
 const root = createRoot(document.getElementById("app"));
 root.render(<App />);
+ 

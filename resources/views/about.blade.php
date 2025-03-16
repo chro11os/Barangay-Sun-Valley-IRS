@@ -7,7 +7,7 @@
 
     @vite('resources/css/app.css')
     @vite('resources/js/app.jsx')
-
+ 
     <style>
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;

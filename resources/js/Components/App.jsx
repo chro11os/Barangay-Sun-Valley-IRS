@@ -225,7 +225,7 @@ const App = () => {
         </div>
     );
 };
-
+ 
 App.propTypes = {
 
 };
