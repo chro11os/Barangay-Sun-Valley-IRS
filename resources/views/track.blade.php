@@ -8,6 +8,25 @@
     @vite('resources/js/app.jsx')
 </head>
 
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .nav-link:hover {
+            background-color: #4a5568;
+        }
+
+        .btn {
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: #2d3748;
+            transform: translateY(-2px);
+        }
+    </style>
+
 <body class="bg-cover bg-center bg-fixed pt-16" style="background-image: url('/img/background.png');">
     <nav class="bg-gray-800 shadow-md p-4 fixed top-0 left-0 w-full z-50">
         <div class="flex items-center justify-between">
@@ -15,7 +34,9 @@
             <p class="text-sm p-2 font-bold text-white">Sun Valley IRS</p>
 
             <div class="flex-1 text-center">
-                <a href="{{ route('adminDashboard') }}" class="nav-link text-white px-3 py-2 rounded-md text-sm font-small">AdminDashTest</a>
+                @if(Auth::check() && Auth::user()->role_id != 0)
+                    <a href="{{ route('adminDashboard') }}" class="nav-link text-white px-3 py-2 rounded-md text-sm font-small">Admin Dash</a>
+                @endif
                 <a href="{{ route('report') }}" class="nav-link text-white px-3 py-2 rounded-md text-md font-small">Home</a>
                 <a href="{{ route('track') }}" class="nav-link text-white px-3 py-2 rounded-md text-md font-small">Reports</a>
                 <a href="{{ route('about') }}" class="nav-link text-white px-3 py-2 rounded-md text-md font-small">Contact</a>

@@ -14,7 +14,7 @@ class IncidentUpdate extends Model
     public $incrementing = false; // Because it's a VARCHAR, not an auto-incrementing ID
     protected $keyType = 'string';
 
-    protected $fillable = ['incident_id', 'status_updateid', 'update_time', 'updated_by'];
+    protected $fillable = ['incident_id', 'status_updateid', 'update_time', 'updated_by', 'details'];
 
     public function incident()
     {

@@ -129,7 +129,7 @@ class IncidentFormController extends Controller
     
         return response()->json([
             'status' => $incidentUpdate->status->status ?? 'No updates available', 
-            'details' => $incidentUpdate->status->description ?? 'No details available',
+            'details' => $incidentUpdate->details ?? 'No details available',
             'date_reported' => $incident->date_reported ?? 'Unknown date'
         ]);
     } 

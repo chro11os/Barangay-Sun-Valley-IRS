@@ -33,7 +33,9 @@
         <p class="text-sm color white p-2 font-bold text-white">Sun Valley IRS</p>
 
         <div class="flex-1 text-center">
-            <a href="{{ route('adminDashboard') }}" class="nav-link text-white px-3 py-2 rounded-md text-sm font-small">AdminDashTest</a>
+            @if(Auth::check() && Auth::user()->role_id != 0)
+                <a href="{{ route('adminDashboard') }}" class="nav-link text-white px-3 py-2 rounded-md text-sm font-small">Admin Dash</a>
+            @endif
             <a href="{{ route('report') }}" class="nav-link text-white px-3 py-2 rounded-md text-md font-small">Home</a>
             <a href="{{ route('track') }}" class="nav-link text-white px-3 py-2 rounded-md text-md font-small">Reports</a>
             <a href="{{ route('about') }}" class="nav-link text-white px-3 py-2 rounded-md text-md font-small">Contact</a>
