@@ -34,7 +34,9 @@
         <p class="text-sm color white p-2 font-bold text-white">Sun Valley IRS</p>
 
         <div class="flex-1 text-center">
-            <a href="{{ route('adminDashboard') }}" class="nav-link text-white px-3 py-2 rounded-md text-sm font-small">Admin Dash</a>
+            @if(Auth::check() && Auth::user()->role_id != 0)
+                <a href="{{ route('adminDashboard') }}" class="nav-link text-white px-3 py-2 rounded-md text-sm font-small">Admin Dash</a>
+            @endif
             <a href="{{ route('report') }}" class="nav-link text-white px-3 py-2 rounded-md text-md font-small">Home</a>
             <a href="{{ route('track') }}" class="nav-link text-white px-3 py-2 rounded-md text-md font-small">Reports</a>
             <a href="{{ route('about') }}" class="nav-link text-white px-3 py-2 rounded-md text-md font-small">Contact</a>
@@ -87,10 +89,17 @@
 
     <div class="bg-green-700 shadow-md shadow-green-950 rounded-lg p-8 text-center w-full md:w-3/4 lg:w-1/2">
         <h1 class="text-4xl font-bold mb-4 text-yellow-500">Sun-Valley Incident Report System</h1>
-        <button id="reportButton"
-                class="btn bg-green-700 hover:bg-green-900 text-yellow-100 font-bold py-3 px-6 rounded-full shadow-lg shadow-green-950 transition duration-300 ease-in-out transform hover:scale-105">
-            Report an Incident
-        </button>
+        @if(Auth::check())
+            <button id="reportButton"
+                    class="btn bg-green-700 hover:bg-green-900 text-yellow-100 font-bold py-3 px-6 rounded-full shadow-lg shadow-green-950 transition duration-300 ease-in-out transform hover:scale-105">
+                Report an Incident
+            </button>
+        @else
+            <a href="{{ route('login') }}"
+            class="btn bg-red-600 hover:bg-red-800 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                Login to Report
+            </a>
+        @endif 
 
         <div id="reportForm" class="hidden mt-8">
             <form id="incidentForm" action="{{ route('incidents.store') }}" method="POST" enctype="multipart/form-data">
@@ -197,7 +206,7 @@
         </div>
     </div>
 </div>
-
+ 
     @if(session('success'))
         <script>
             alert("{{ session('success') }}");

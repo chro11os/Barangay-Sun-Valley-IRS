@@ -8,6 +8,7 @@ use App\Http\Controllers\IncidentFormController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AdminDashboardController;
 use App\Models\IncidentType;
+use App\Http\Controllers\residentDashboardController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -22,11 +23,11 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-
+ 
 
 // Admin Dashboard
 Route::get('/admin/AdminDashboard', [AdminDashboardController::class, 'index'])->name('adminDashboard');
-Route::get('/residentDashboard', [IncidentFormController::class, 'create'])->name('residentDashboard');
+
 
 Route::get('/', [IncidentFormController::class, 'create'])->name('home');
 Route::get('/app', [IncidentFormController::class, 'create'])->name('report');
@@ -51,6 +52,10 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
+Route::get('/residentDashboard', function () {
+    return view('residentDashboard');
+})->name('residentDashboard');
+
 Route::get('/track', function () {
     return view('track');
 })->name('track');
@@ -59,3 +64,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/AdminDashboard', [AdminDashboardController::class, 'index'])
         ->name('adminDashboard');
 });
+
+
+
