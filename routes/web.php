@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\IncidentFormController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 use App\Http\Controllers\AdminDashboardController;
 use App\Models\IncidentType;
 use App\Http\Controllers\residentDashboardController;
@@ -66,4 +67,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 
+// Password Reset Link Request
 
+Route::post('/forgot-password', function (Request $request) {
+    $request->validate(['email' => 'required|email']);
+
+    Password::sendResetLink($request->only('email'));
+
+    return back()->with('status', 'Reset link sent!');
+})->name('password.email');
