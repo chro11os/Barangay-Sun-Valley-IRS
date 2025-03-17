@@ -25,7 +25,7 @@
             background-color: #2d3748;
             transform: translateY(-2px);
         }
-    </style> 
+    </style>
 </head>
 <body class="bg-cover bg-center bg-fixed" style="background-image: url('/img/background.png');">
 <nav class="bg-gray-800 shadow-md p-4 sticky top-0 z-50">
@@ -54,7 +54,7 @@
                 <button onclick="toggleDropdown()" class="text-white px-3 py-2 rounded-md text-sm font-small hover:bg-gray-700 focus:outline-none">
                     {{ Auth::user()->name }}
                 </button>
-            
+
                 <!-- Dropdown Menu -->
                 <div id="dropdownMenu" class="absolute right-0 mt-2 w-48 bg-gray-800 text-white rounded shadow-lg opacity-0 scale-95 pointer-events-none transition-all duration-300">
                     <form action="{{ route('logout') }}" method="POST">
@@ -63,7 +63,7 @@
                     </form>
                 </div>
             </div>
-            
+
             <script>
                 function toggleDropdown() {
                     let dropdown = document.getElementById("dropdownMenu");
@@ -71,7 +71,7 @@
                     dropdown.classList.toggle("scale-100");
                     dropdown.classList.toggle("pointer-events-auto");
                 }
-            
+
                 // Close dropdown when clicking outside
                 document.addEventListener("click", function(event) {
                     let dropdown = document.getElementById("dropdownMenu");
@@ -97,11 +97,12 @@
                 Report an Incident
             </button>
         @else
+            <br>
             <a href="{{ route('login') }}"
-            class="btn bg-red-600 hover:bg-red-800 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+            class="btn bg-green-800 hover:bg-green-900 text-yellow-500 font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
                 Login to Report
             </a>
-        @endif 
+        @endif
 
         <div id="reportForm" class="hidden mt-8">
             <form id="incidentForm" action="{{ route('incidents.store') }}" method="POST" enctype="multipart/form-data">
@@ -204,12 +205,17 @@
                             type="submit">
                         Submit Report
                     </button>
+                    <button id="closeButton"
+                            class="bg-red-600 hover:bg-red-900 text-yellow-100 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            type="button">
+                        Close
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
- 
+
     @if(session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
@@ -221,6 +227,11 @@
         document.getElementById('reportForm').classList.remove('hidden');
         this.classList.add('hidden'); // Hide the button after clicking
         //console.log(Auth::user()->id);
+    });
+
+    document.getElementById('closeButton').addEventListener('click', function () {
+        document.getElementById('reportForm').classList.add('hidden');
+        document.getElementById('reportButton').classList.remove('hidden'); // Show the button again
     });
 
     document.getElementById('incidentForm').addEventListener('submit', function (event) {
