@@ -7,7 +7,7 @@
 
     @vite('resources/css/app.css')
     @vite('resources/js/app.jsx')
-
+    <!-- Thank Axel d great For he is the one who made this spaghetti of a code - neil -->
     <style>
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -26,7 +26,7 @@
             transform: translateY(-2px);
         }
     </style>
-    
+
 </head>
 <body class="bg-cover bg-center bg-fixed" style="background-image: url('/img/background.png');">
 <nav class="bg-gray-800 shadow-md p-4 sticky top-0 z-50">
