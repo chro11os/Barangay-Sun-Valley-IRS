@@ -25,6 +25,8 @@
         <div class="flex-1 text-center">
             @if(Auth::check() && Auth::user()->role_id != 0)
                 <a href="{{ route('adminDashboard') }}" class="nav-link text-white px-3 py-2 rounded-md text-sm font-small">Admin Dash</a>
+            @else
+                <a href="{{ route('adminDashboard') }}" class="nav-link text-white px-3 py-2 rounded-md text-sm font-small" disabled style="visibility:hidden;">Admin Dash</a>
             @endif
             <a href="{{ route('report') }}" class="nav-link text-white px-3 py-2 rounded-md text-md font-small">Home</a>
             <a href="{{ route('track') }}" class="nav-link text-white px-3 py-2 rounded-md text-md font-small">Reports</a>
