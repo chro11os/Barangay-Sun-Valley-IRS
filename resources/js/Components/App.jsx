@@ -16,6 +16,9 @@ const App = () => {
     const [error, setError] = useState(null);
     const [viewMode, setViewMode] = useState(true);
     const [showUserTable, setShowUserTable] = useState(false);
+    const toggleUserTable = () => {
+        setShowUserTable((prev) => !prev);
+    };
 
     const [searchQuery, setSearchQuery] = useState("");
     const [filterStatus, setFilterStatus] = useState("");
@@ -129,35 +132,30 @@ const App = () => {
         <div className="container mx-auto mt-8">
             <div className="flex justify-between items-center mb-4">
                 <h1 className="text-3xl font-bold text-center text-white bg-gray-800 px-4 py-2 rounded-lg">
-                    {viewMode ? "View Incidents" : "Manage Incidents"}
+                    {showUserTable ? "Edit User Roles" : viewMode ? "View Incidents" : "Manage Incidents"}
                 </h1>
 
                 <div className="flex gap-2">
                     <button
-                        onClick={() => setShowUserTable(!showUserTable)}
+                        onClick={toggleUserTable}
                         className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-md"
                     >
                         {showUserTable ? "Back to Incidents" : "Edit Users"}
                     </button>
 
-                    <button
-                        onClick={() => setViewMode(!viewMode)}
-                        className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-md"
-                    >
-                        {viewMode ? "Switch to Edit Mode" : "Switch to View Mode"}
-                    </button>
+                    {!showUserTable && ( // Hide this button when showUserTable is true
+                        <button
+                            onClick={() => setViewMode(!viewMode)}
+                            className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-md"
+                        >
+                            {viewMode ? "Switch to Edit Mode" : "Switch to View Mode"}
+                        </button>
+                    )}
                 </div>
             </div>
 
-            {/* Show UserTable if button is clicked, otherwise show incident tables
-            {showUserTable ? (
-                <UserTable />
-            ) : viewMode ? (
-                <IncidentViewOnlyTable incidents={incidents} />
-            ) : (
-                <IncidentTable incidents={editableIncidents} />
-            )} */}
-
+            {!showUserTable && (
+            <>
             <div className="flex flex-nowrap gap-2 mb-4 overflow-x-auto">
                 <input
                     type="text"
@@ -238,6 +236,8 @@ const App = () => {
                 </select>
 
             </div>
+            </>
+            )}
 
             {/* Show UserTable if button is clicked, otherwise show incident tables */}
             {showUserTable ? (
