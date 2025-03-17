@@ -31,7 +31,6 @@ const UserTable = () => {
 
     return (
         <div className="bg-white p-4 rounded shadow-md">
-            <h2 className="text-xl font-bold mb-4">Edit User Roles</h2>
             <table className="w-full border-collapse border border-gray-300">
                 <thead>
                     <tr className="bg-gray-200">
@@ -51,7 +50,7 @@ const UserTable = () => {
                                 <select
                                     value={user.role_id}
                                     onChange={(e) => updateRole(user.id, parseInt(e.target.value))}
-                                    className="border rounded p-1"
+                                    className="border rounded p-1 w-full"
                                 >
                                     <option value="0">Resident</option>
                                     <option value="1">Admin1</option>
