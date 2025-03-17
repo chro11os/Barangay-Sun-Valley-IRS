@@ -26,13 +26,14 @@
             transform: translateY(-2px);
         }
     </style>
+    
 </head>
 <body class="bg-cover bg-center bg-fixed" style="background-image: url('/img/background.png');">
 <nav class="bg-gray-800 shadow-md p-4 sticky top-0 z-50">
     <div class="flex items-center justify-between">
         <img src="/img/sun-valley-logo.jpg" alt="Sun Valley Logo" class="rounded-full h-10 w-10 ml-4">
         <p class="text-sm color white p-2 font-bold text-white">Sun Valley IRS</p>
-
+        
         <div class="flex-1 text-center">
             @if(Auth::check() && Auth::user()->role_id != 0)
                 <a href="{{ route('adminDashboard') }}" class="nav-link text-white px-3 py-2 rounded-md text-sm font-small">Admin Dash</a>
