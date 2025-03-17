@@ -243,7 +243,7 @@ const App = () => {
             {showUserTable ? (
                 <UserTable />
             ) : viewMode ? (
-                <IncidentViewOnlyTable incidents={incidents} />
+                <IncidentViewOnlyTable incidents={viewOnlyIncidents} />
             ) : (
                 <IncidentTable incidents={editableIncidents} />
             )}
