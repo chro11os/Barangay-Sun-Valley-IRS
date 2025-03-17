@@ -54,7 +54,7 @@ Route::get('/about', function () {
 })->name('about');
 
 //Route::middleware(['auth'])->get('/residentDashboard', [residentDashboardController::class, 'index'])->name('residentDashboard');
-
+     
 
 Route::get('/track', function () {
     return view('track');

@@ -105,7 +105,7 @@
                 dropdown.classList.remove("opacity-100", "scale-100", "pointer-events-auto");
             }
         });
-
+ 
         document.getElementById('trackReportForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const incidentId = document.getElementById('incident_id').value;

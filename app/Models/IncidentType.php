@@ -16,3 +16,4 @@ class IncidentType extends Model
 
     protected $fillable = ['incidentType', 'description'];
 }
+    

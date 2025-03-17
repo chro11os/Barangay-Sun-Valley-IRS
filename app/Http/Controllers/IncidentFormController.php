@@ -136,7 +136,7 @@ class IncidentFormController extends Controller
             'date_reported' => $incident->date_reported ?? 'Unknown date'
         ]);
     } 
-
+ 
     public function getUserIncidents()
     {
         $userId = Auth::id();

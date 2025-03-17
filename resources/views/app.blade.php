@@ -25,7 +25,7 @@
             background-color: #2d3748;
             transform: translateY(-2px);
         }
-    </style>
+    </style> 
 </head>
 <body class="bg-cover bg-center bg-fixed" style="background-image: url('/img/background.png');">
 <nav class="bg-gray-800 shadow-md p-4 sticky top-0 z-50">

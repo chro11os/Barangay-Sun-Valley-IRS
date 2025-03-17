@@ -42,3 +42,4 @@ class ReportInfo extends Model
         return $this->belongsTo(Resident::class, 'ResidentID', 'id');
     }
 }
+ 
