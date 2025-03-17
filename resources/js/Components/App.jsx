@@ -5,6 +5,7 @@ import IncidentTable from "./IncidentTable";
 import IncidentViewOnlyTable from "./IncidentViewOnlyTable";
 import { supabase } from "../supabaseClient"; // Corrected path
 import PropTypes from 'prop-types';
+import UserTable from "./UserTable"; // Ensure this path is correct
 
 const App = () => {
     const [incidents, setIncidents] = useState([]);
@@ -14,6 +15,7 @@ const App = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [viewMode, setViewMode] = useState(true);
+    const [showUserTable, setShowUserTable] = useState(false);
 
     const [searchQuery, setSearchQuery] = useState("");
     const [filterStatus, setFilterStatus] = useState("");
@@ -24,6 +26,8 @@ const App = () => {
     const [filterDay, setFilterDay] = useState("");
 
     useEffect(() => {
+        const storedData = localStorage.getItem("someKey");
+        const parsedData = storedData ? JSON.parse(storedData) : {};
         const fetchData = async () => {
             setLoading(true);
             try {
@@ -128,13 +132,31 @@ const App = () => {
                     {viewMode ? "View Incidents" : "Manage Incidents"}
                 </h1>
 
-                <button
-                    onClick={() => setViewMode(!viewMode)}
-                    className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-md"
-                >
-                    {viewMode ? "Switch to Edit Mode" : "Switch to View Mode"}
-                </button>
+                <div className="flex gap-2">
+                    <button
+                        onClick={() => setShowUserTable(!showUserTable)}
+                        className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-md"
+                    >
+                        {showUserTable ? "Back to Incidents" : "Edit Users"}
+                    </button>
+
+                    <button
+                        onClick={() => setViewMode(!viewMode)}
+                        className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-md"
+                    >
+                        {viewMode ? "Switch to Edit Mode" : "Switch to View Mode"}
+                    </button>
+                </div>
             </div>
+
+            {/* Show UserTable if button is clicked, otherwise show incident tables
+            {showUserTable ? (
+                <UserTable />
+            ) : viewMode ? (
+                <IncidentViewOnlyTable incidents={incidents} />
+            ) : (
+                <IncidentTable incidents={editableIncidents} />
+            )} */}
 
             <div className="flex flex-nowrap gap-2 mb-4 overflow-x-auto">
                 <input
@@ -217,11 +239,14 @@ const App = () => {
 
             </div>
 
-            {viewMode ? (
-                <IncidentViewOnlyTable incidents={viewOnlyIncidents} />
+            {/* Show UserTable if button is clicked, otherwise show incident tables */}
+            {showUserTable ? (
+                <UserTable />
+            ) : viewMode ? (
+                <IncidentViewOnlyTable incidents={incidents} />
             ) : (
                 <IncidentTable incidents={editableIncidents} />
-            ) }
+            )}
         </div>
     );
 };

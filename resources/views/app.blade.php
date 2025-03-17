@@ -185,7 +185,7 @@
                     </div>
 
                     <div class="md:col-span-2">
-                        <label for="incident_details" class="block text-yellow-500 text-sm font-bold mb-2">Incident
+                        <label for="incident_details" class="block text-yellow-500 text-sm font-bold mb-2" required>Incident
                             Details:</label>
                         <textarea id="incident_details" name="incident_details" rows="4"
                                   class="shadow appearance-none border rounded w-full py-2 px-3 text-yellow-500 leading-tight focus:outline-none focus:shadow-outline"></textarea>
