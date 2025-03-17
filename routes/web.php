@@ -32,6 +32,7 @@ Route::get('/admin/AdminDashboard', [AdminDashboardController::class, 'index'])-
 Route::get('/', [IncidentFormController::class, 'create'])->name('home');
 Route::get('/app', [IncidentFormController::class, 'create'])->name('report');
 Route::get('/track/search', [IncidentFormController::class, 'trackIncident'])->name('trackIncident');
+Route::get('residentDashboard', [IncidentFormController::class, 'getUserIncidents'])->name('residentDashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/incidents', [IncidentFormController::class, 'index'])->name('incidents.index');
@@ -52,9 +53,8 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
-Route::get('/residentDashboard', function () {
-    return view('residentDashboard');
-})->name('residentDashboard');
+//Route::middleware(['auth'])->get('/residentDashboard', [residentDashboardController::class, 'index'])->name('residentDashboard');
+
 
 Route::get('/track', function () {
     return view('track');

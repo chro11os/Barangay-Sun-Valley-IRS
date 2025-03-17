@@ -7,11 +7,8 @@ import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 import App from './components/App'; // Import the App component
-import UserReportView from './components/UserReportView'; // Import the App component
-
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
-
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -28,7 +25,10 @@ createInertiaApp({
         color: '#4B5563',
     },
 });
-// Make sure that App is not rendered on the whole page.
-const root = createRoot(document.getElementById("app"));
-root.render(<App />);
- 
+
+// Check if the session status is not null before rendering components
+const userReportEl = document.getElementById("app");
+if (userReportEl) {
+    const userReportRoot = createRoot(userReportEl);
+    userReportRoot.render(<App />);
+}

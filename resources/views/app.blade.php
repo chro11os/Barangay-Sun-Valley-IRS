@@ -121,15 +121,16 @@
                     <div>
                         <label for="incident_type" class="block text-yellow-500 text-sm font-bold mb-2">Incident Type:</label>
                         @if(isset($incidentTypes) && $incidentTypes->count())
-                        <select name="incident_type">
-                            @foreach ($incidentTypes as $type)
-                                <option value="{{ $type->incidentTypeID }}">{{ $type->incidentType }}</option>
-                            @endforeach
-                        </select>
+                            <select name="incident_type">
+                                @foreach ($incidentTypes->sortBy('incidentType') as $type)
+                                    <option value="{{ $type->incidentTypeID }}">{{ $type->incidentType }}</option>
+                                @endforeach
+                            </select>
                         @else
                             <p>No incident types found.</p>
                         @endif
                     </div>
+
 
                     <div>
                         <label for="reporter_name" class="block text-yellow-500 text-sm font-bold mb-2">Name of
@@ -208,15 +209,16 @@
 </div>
  
     @if(session('success'))
-        <script>
-            alert("{{ session('success') }}");
-        </script>
-    @endif
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 
 <script>
     document.getElementById('reportButton').addEventListener('click', function () {
         document.getElementById('reportForm').classList.remove('hidden');
         this.classList.add('hidden'); // Hide the button after clicking
+        //console.log(Auth::user()->id);
     });
 
     document.getElementById('incidentForm').addEventListener('submit', function (event) {

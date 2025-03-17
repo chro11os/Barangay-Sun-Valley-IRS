@@ -11,7 +11,8 @@ class IncidentType extends Model
     use HasFactory;
     protected $table = 'incident_type'; // Match database table name
 
-    protected $primaryKey = 'incidentTypeId'; // Match your primary key
+    protected $primaryKey = 'incidentTypeID'; // Match your primary key
+    protected $keyType = 'int'; // Define key type
 
     protected $fillable = ['incidentType', 'description'];
 }

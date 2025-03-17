@@ -29,7 +29,7 @@ class ReportInfo extends Model
 
     public function method()
     {
-        return $this->belongsTo(Method::class, 'method_id', 'MethodID');
+        return $this->belongsTo(Method::class, 'method_id', 'methodID');
     }
 
     public function user()

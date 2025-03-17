@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use App\Models\IncidentType;
 use App\Models\Incident;
 use App\Models\Method;
@@ -100,9 +101,11 @@ class IncidentFormController extends Controller
         return redirect()->route('report') // Assuming 'report' is the route for your app.blade.php
                  ->with('success', 'Thank you for submitting! Here is your tracking number: ' . $incidentUpdate->id);
     }
-
+    
     public function trackIncident(Request $request)
     {
+        Log::info('Session Data:', session()->all());
+        Log::info('Request Data:', $request->all());
         $request->validate([
             'incident_id' => 'required|string'
         ]);
@@ -125,7 +128,7 @@ class IncidentFormController extends Controller
                 'details' => 'Incident record not found',
                 'date_reported' => 'Unknown date'
             ]);
-        }
+        } 
     
         return response()->json([
             'status' => $incidentUpdate->status->status ?? 'No updates available', 
@@ -133,6 +136,27 @@ class IncidentFormController extends Controller
             'date_reported' => $incident->date_reported ?? 'Unknown date'
         ]);
     } 
+
+    public function getUserIncidents()
+    {
+        $userId = Auth::id();
+    
+        $incidents = Incident::with([
+            'IncidentUpdate:id,details,status_updateid',
+            'IncidentUpdate.Status:status_update_id,status',
+            'incidentType:incidentTypeID,incidentType',
+            'reporter:id,incident_reporter_name,phone_number,user_id,incident_suspect_name,method_id',
+            'reporter.method:methodID,methodType'
+        ])
+        ->whereHas('reporter', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })
+        ->orderBy('date_reported', 'desc')
+        ->get();
+    
+        return view('residentDashboard', compact('incidents'));
+    }
+
     
     
 

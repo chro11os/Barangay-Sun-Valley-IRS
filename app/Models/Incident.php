@@ -27,11 +27,16 @@ class Incident extends Model
 
     public function incidentType()
     {
-        return $this->belongsTo(IncidentType::class, 'incidentTypeId');
+        return $this->belongsTo(IncidentType::class, 'incidentType_id', 'incidentTypeID'); // Corrected
     }
     public function incidentUpdate()
     {
         return $this->hasOne(IncidentUpdate::class, 'id', 'update_id'); // Link to tracking table
+    }
+
+    public function reporter()
+    {
+        return $this->hasOne(ReportInfo::class, 'id', 'reporter_id'); // Link to tracking table
     }
 
 }
