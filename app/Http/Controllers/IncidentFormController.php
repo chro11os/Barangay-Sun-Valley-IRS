@@ -34,23 +34,37 @@ class IncidentFormController extends Controller
         $request->validate([
             'incident_type' => 'required|exists:incident_type,incidentTypeID',
             'method_id' => 'required|exists:method,methodID', 
-            'reporter_name' => 'required|string|max:255',
-            'reported_name' => 'nullable|string|max:255',
+            'reporter_last_name' => 'required|string|max:255',
+            'reporter_first_name' => 'required|string|max:255',
+            'reported_last_name' => 'nullable|string|max:255',
+            'reported_first_name' => 'nullable|string|max:255',
             'resident_id' => 'nullable|exists:residents,id',
             'user_id' => 'nullable|exists:users,id',
             'email' => 'nullable|email',
             'phone_number' => 'nullable|string',
             'incident_details' => 'required|string',
             'location' => 'required|string',
-            'address' => 'nullable|string',
+            'house_number' => 'nullable|string|max:255',
+            'street_name' => 'nullable|string|max:255',
             'incident_date' => 'required|date_format:Y-m-d\TH:i',
             'attachments.*' => 'nullable|file|mimes:jpg,png,pdf|max:2048',
         ]);
     
+        // Concatenate Reporter Name
+        $reporterName = trim("{$request->reporter_last_name}, {$request->reporter_first_name}");
+    
+        // Concatenate Reported Person's Name (if provided)
+        $reportedName = $request->reported_last_name && $request->reported_first_name
+            ? trim("{$request->reported_last_name}, {$request->reported_first_name}")
+            : null;
+    
+        // Concatenate House Number and Street Name
+        $fullAddress = trim("{$request->house_number} {$request->street_name}");
+    
         // Store the reporter information
         $reporter = ReportInfo::create([
-            'incident_reporter_name' => $request->reporter_name,
-            'incident_suspect_name' => $request->reported_name ?? null,
+            'incident_reporter_name' => $reporterName,
+            'incident_suspect_name' => $reportedName,
             'method_id' => $request->method_id,
             'resident_id' => $request->resident_id ?? null,
             'user_id' => Auth::check() ? Auth::id() : null,
@@ -73,7 +87,7 @@ class IncidentFormController extends Controller
         // Create Incident
         $incident = Incident::create([
             'reporter_id' => $reporter->id,
-            'address' =>$request->address,
+            'address' => $fullAddress,  // Use concatenated address
             'incidentType_id' => $request->incident_type,
             'location' => $request->location,
             'description' => $request->incident_details,
@@ -85,22 +99,22 @@ class IncidentFormController extends Controller
             return back()->withErrors('Failed to create incident.');
         }
     
-        // Insert into `incident_updates` (PostgreSQL automatically generates `id` and `status`)
+        // Insert into `incident_updates`
         $incidentUpdate = IncidentUpdate::create([
-            'incident_id' => $incident->id, // Linking to the incident
-            'updated_by' => Auth::check() ? Auth::id() : null, // Pass the logged-in user's ID
+            'incident_id' => $incident->id,
+            'updated_by' => Auth::check() ? Auth::id() : null,
         ]);
     
         if (!$incidentUpdate || !$incidentUpdate->id) {
             return back()->withErrors('Failed to create incident update.');
         }
-
-        
     
-        // Redirect user to tracking page
-        return redirect()->route('report') // Assuming 'report' is the route for your app.blade.php
-                 ->with('success', 'Thank you for submitting! Here is your tracking number: ' . $incidentUpdate->id);
+        return response()->json([
+            'track_num' => $incident->update_id
+        ]);
+        
     }
+
     
     public function trackIncident(Request $request)
     {

@@ -14,6 +14,8 @@ const IncidentViewOnlyTable = ({ incidents }) => {
             <th className="py-2 px-4">Reporter</th>
             <th className="py-2 px-4">Reported</th>
             <th className="py-2 px-4">Incident Details</th>
+            <th className="py-2 px-4">Subdivision</th>
+            <th className="py-2 px-4">Address</th>
             <th className="py-2 px-4">Status</th>
             <th className="py-2 px-4">Description</th>
           </tr>
@@ -35,6 +37,8 @@ const IncidentViewOnlyTable = ({ incidents }) => {
                 <td className="border px-4 py-2">{incident.reporter_info?.incident_reporter_name || "N/A"}</td>
                 <td className="border px-4 py-2">{incident.reporter_info?.incident_suspect_name || "N/A"}</td>
                 <td className="border px-4 py-2">{incident.description}</td>
+                <td className="border px-4 py-2">{incident.location}</td>
+                <td className="border px-4 py-2">{incident.address}</td>
                 <td className="border px-4 py-2">{incident.incident_updates?.status?.status || "N/A"}</td>
                 <td className="border px-4 py-2">{incident.incident_updates?.details|| "N/A"}</td>
               </tr>
