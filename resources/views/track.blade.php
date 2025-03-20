@@ -6,15 +6,18 @@
     <title>Track Incident Report</title>
     @vite('resources/css/app.css')
     @vite('resources/js/app.jsx')
-</head>
-
     <style>
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-image: url('/img/background.png');
+            background-size: cover;
+            background-position: center;
+            backdrop-filter: blur(10px);
         }
 
         .nav-link:hover {
-            background-color: #4a5568;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: background-color 0.3s ease;
         }
 
         .btn {
@@ -22,13 +25,36 @@
         }
 
         .btn:hover {
-            background-color: #2d3748;
+            background-color: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
         }
-    </style>
 
-<body class="bg-cover bg-center bg-fixed pt-16" style="background-image: url('/img/background.png');">
-    <nav class="bg-gray-800 shadow-md p-4 fixed top-0 left-0 w-full z-50">
+        .acrylic {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-fixed pt-16">
+    <nav class="bg-gray-800 shadow-md p-4 fixed top-0 left-0 w-full z-50 acrylic">
         <div class="flex items-center justify-between">
             <img src="/img/sun-valley-logo.jpg" alt="Sun Valley Logo" class="rounded-full h-10 w-10 ml-4">
             <p class="text-sm p-2 font-bold text-white">Sun Valley IRS</p>
@@ -46,8 +72,8 @@
 
             <div class="flex items-center space-x-4">
                 @guest
-                    <a href="{{ route('login') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Login</a>
-                    <a href="{{ route('register') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Register</a>
+                    <a href="{{ route('login') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium">Login</a>
+                    <a href="{{ route('register') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium">Register</a>
                 @else
                 <div class="relative">
                     <button onclick="toggleDropdown()" class="text-white px-3 py-2 rounded-md text-sm font-small hover:bg-gray-700 focus:outline-none">
@@ -66,22 +92,20 @@
         </div>
     </nav>
 
-    <div class="container mx-auto py-10 px-6 max-w-4xl flex justify-center items-center h-screen">
-        <div class="bg-green-700 shadow-lg rounded-lg p-8 text-center text-yellow-100">
-            <h1 class="text-3xl font-bold mb-6 text-yellow-500">Track Your Incident Report</h1>
+    <div class="container mx-auto py-10 px-6 max-w-4xl flex justify-center items-center h-screen fade-in">
+        <div class="acrylic shadow-lg rounded-lg p-8 text-center text-white">
+            <h1 class="text-3xl font-bold mb-6 text-blue-700">Track Your Incident Report</h1>
 
             <form id="trackReportForm" class="mb-6">
                 <input type="text" id="incident_id" name="incident_id"
-                    class="w-full p-3 border rounded-md bg-green-900 text-yellow-500 placeholder-yellow-500" placeholder="Enter Incident Report ID" required>
-                <button type="submit" class="mt-4 bg-green-950 text-yellow-100 px-4 py-2 rounded-md hover:bg-green-800 hover:text-yellow-200">
+                    class="w-full p-3 border rounded-md bg-transparent text-gray-900 placeholder-gray-700" placeholder="Enter Incident Report ID" required>
+                <button type="submit" class="mt-4 bg-blue-600 text-yellow-100 px-4 py-2 rounded-md hover:bg-blue-800 hover:text-gray-200">
                     Track Report
                 </button>
             </form>
 
-            
-                <a href="{{ route('residentDashboard') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">View Dashboard</a>
-            
-  
+            <a href="{{ route('residentDashboard') }}" class="btn text-gray-900 px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700 hover:text-white">View Dashboard</a>
+
             <div id="reportResult" class="mt-6 hidden">
                 <h2 class="text-xl font-semibold">Report Details</h2>
                 <p id="status" class="text-lg mt-2"></p>
@@ -99,7 +123,6 @@
             dropdown.classList.toggle("pointer-events-auto");
         }
 
-        // Close dropdown when clicking outside
         document.addEventListener("click", function(event) {
             let dropdown = document.getElementById("dropdownMenu");
             let button = event.target.closest("button");
@@ -107,24 +130,18 @@
                 dropdown.classList.remove("opacity-100", "scale-100", "pointer-events-auto");
             }
         });
- 
+
         document.getElementById('trackReportForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const incidentId = document.getElementById('incident_id').value;
-
-            console.log("Tracking number entered:", incidentId);
 
             const url = `/track/search?incident_id=${encodeURIComponent(incidentId)}`;
 
             fetch(url, {
                 headers: { 'Accept': 'application/json' }
             })
-            .then(response => {
-                console.log("Response received:", response);
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                console.log("Data received:", data);
                 if (data.error) {
                     document.getElementById('reportResult').classList.add('hidden');
                     alert(data.error);
@@ -138,6 +155,5 @@
             .catch(error => console.error('Error:', error));
         });
     </script>
-
 </body>
 </html>

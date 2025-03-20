@@ -32,4 +32,3 @@ if (userReportEl) {
     const userReportRoot = createRoot(userReportEl);
     userReportRoot.render(<App />);
 }
-    

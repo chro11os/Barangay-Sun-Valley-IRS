@@ -100,32 +100,17 @@
 </nav>
 
 <div class="container mx-auto p-7 flex justify-center items-center h-screen">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        @foreach($articles as $article)
-            <div class="bg-white shadow-md rounded-lg overflow-hidden">
-                <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="w-full h-48 object-cover">
-                <div class="p-4">
-                    <h2 class="text-lg font-bold mb-2">{{ $article->title }}</h2>
-                    <p class="text-gray-700 text-sm mb-4">{{ Str::limit($article->summary, 100) }}</p>
-                    <a href="{{ $article->link }}" target="_blank" class="btn bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded">
-                        Read More
-                    </a>
-                </div>
-            </div>
-        @endforeach
-    </div>
-
-    <div class="bg-green-700 shadow-md shadow-green-950 rounded-lg p-8 text-center w-full md:w-3/4 lg:w-1/2">
-        <h1 class="text-4xl font-bold mb-4 text-yellow-500">Sun-Valley Incident Report System</h1>
+    <div class="bg-white/30 shadow-lg rounded-lg p-8 text-center w-full md:w-3/4 lg:w-1/2 backdrop-blur-md border border-white/20">
+        <h1 class="text-4xl font-extrabold mb-6 text-gray-800 drop-shadow-lg">Sun-Valley Incident Report System</h1>
         @if(Auth::check())
             <button id="reportButton"
-                    class="btn bg-green-700 hover:bg-green-900 text-yellow-100 font-bold py-3 px-6 rounded-full shadow-lg shadow-green-950 transition duration-300 ease-in-out transform hover:scale-105">
+                    class="btn bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 text-white font-bold py-3 px-6 rounded-full shadow-md transition-transform duration-300 ease-in-out transform hover:scale-105">
                 Report an Incident
             </button>
         @else
             <br>
             <a href="{{ route('login') }}"
-            class="btn bg-green-800 hover:bg-green-900 text-yellow-500 font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+               class="btn bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-3 px-6 rounded-full shadow-md transition-transform duration-300 ease-in-out transform hover:scale-105">
                 Login to Report
             </a>
         @endif
@@ -137,14 +122,14 @@
             <form id="incidentForm" action="{{ route('incidents.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
-                <h2 class="text-2xl font-bold text-yellow-500 mb-4 text-center">Sun-Valley Incident Report System</h2>
+                <h2 class="text-2xl font-bold text-gray-700 mb-6 text-center drop-shadow-md">Report an Incident</h2>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Method -->
                     <div>
-                        <label for="method" class="block text-yellow-500 text-sm font-bold mb-2">Method:</label>
+                        <label for="method" class="block text-gray-700 text-sm font-semibold mb-2">Method:</label>
                         @if(isset($methods) && $methods->count())
-                            <select id="method" name="method_id" class="shadow border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline">
+                            <select id="method" name="method_id" class="shadow-md border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500">
                                 @foreach ($methods as $method)
                                     <option value="{{ $method->methodID }}">{{ $method->methodType }}</option>
                                 @endforeach
@@ -156,9 +141,9 @@
 
                     <!-- Incident Type -->
                     <div>
-                        <label for="incident_type" class="block text-yellow-500 text-sm font-bold mb-2">Incident Type:</label>
+                        <label for="incident_type" class="block text-gray-700 text-sm font-semibold mb-2">Incident Type:</label>
                         @if(isset($incidentTypes) && $incidentTypes->count())
-                            <select name="incident_type" class="shadow border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline">
+                            <select name="incident_type" class="shadow-md border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500">
                                 @foreach ($incidentTypes->sortBy('incidentType') as $type)
                                     <option value="{{ $type->incidentTypeID }}">{{ $type->incidentType }}</option>
                                 @endforeach
@@ -170,41 +155,41 @@
 
                     <!-- Reporter Name -->
                     <div>
-                        <label for="reporter_last_name" class="block text-yellow-500 text-sm font-bold mb-2">Reporter Last Name (Required):</label>
+                        <label for="reporter_last_name" class="block text-gray-700 text-sm font-semibold mb-2">Reporter Last Name (Required):</label>
                         <input type="text" id="reporter_last_name" name="reporter_last_name" required
-                            class="shadow border rounded w-full py-2 px-3 text-gray-800 focus:outline-none focus:shadow-outline">
+                               class="shadow-md border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
                     <div>
-                        <label for="reporter_first_name" class="block text-yellow-500 text-sm font-bold mb-2">Reporter First Name (Required):</label>
+                        <label for="reporter_first_name" class="block text-gray-700 text-sm font-semibold mb-2">Reporter First Name (Required):</label>
                         <input type="text" id="reporter_first_name" name="reporter_first_name" required
-                            class="shadow border rounded w-full py-2 px-3 text-gray-800 focus:outline-none focus:shadow-outline">
+                               class="shadow-md border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
 
                     <!-- Reported Person Name -->
                     <div>
-                        <label for="reported_last_name" class="block text-yellow-500 text-sm font-bold mb-2">Reported Last Name (Optional):</label>
+                        <label for="reported_last_name" class="block text-gray-700 text-sm font-semibold mb-2">Reported Last Name (Optional):</label>
                         <input type="text" id="reported_last_name" name="reported_last_name"
-                            class="shadow border rounded w-full py-2 px-3 text-gray-800 focus:outline-none focus:shadow-outline"
-                            placeholder="Last Name of the one being reported">
+                               class="shadow-md border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+                               placeholder="Last Name of the one being reported">
                     </div>
                     <div>
-                        <label for="reported_first_name" class="block text-yellow-500 text-sm font-bold mb-2">Reported First Name (Optional):</label>
+                        <label for="reported_first_name" class="block text-gray-700 text-sm font-semibold mb-2">Reported First Name (Optional):</label>
                         <input type="text" id="reported_first_name" name="reported_first_name"
-                            class="shadow border rounded w-full py-2 px-3 text-gray-800 focus:outline-none focus:shadow-outline"
-                            placeholder="First Name of the one being reported">
+                               class="shadow-md border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+                               placeholder="First Name of the one being reported">
                     </div>
 
                     <!-- Date and Location -->
                     <div>
-                        <label for="incident_date" class="block text-yellow-500 text-sm font-bold mb-2">Date Reported:</label>
+                        <label for="incident_date" class="block text-gray-700 text-sm font-semibold mb-2">Date Reported:</label>
                         <input type="datetime-local" id="incident_date" name="incident_date"
-                            class="shadow border rounded w-full py-2 px-3 text-gray-800 focus:outline-none focus:shadow-outline">
+                               class="shadow-md border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
                     <div>
-                        <label for="location" class="block text-yellow-500 text-sm font-bold mb-2">Subdivision:</label>
+                        <label for="location" class="block text-gray-700 text-sm font-semibold mb-2">Subdivision:</label>
                         @if(isset($locations) && count($locations) > 0)
                             <select id="location" name="location"
-                                class="shadow border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline">
+                                    class="shadow-md border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500">
                                 @foreach ($locations as $location)
                                     <option value="{{ $location }}">{{ $location }}</option>
                                 @endforeach
@@ -216,57 +201,56 @@
 
                     <!-- Address Fields -->
                     <div>
-                        <label for="house_number" class="block text-yellow-500 text-sm font-bold mb-2">House Number:</label>
+                        <label for="house_number" class="block text-gray-700 text-sm font-semibold mb-2">House Number:</label>
                         <input type="text" id="house_number" name="house_number"
-                            class="shadow border rounded w-full py-2 px-3 text-gray-800 focus:outline-none focus:shadow-outline"
-                            placeholder="Enter house number">
+                               class="shadow-md border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+                               placeholder="Enter house number">
                     </div>
                     <div>
-                        <label for="street_name" class="block text-yellow-500 text-sm font-bold mb-2">Street Name:</label>
+                        <label for="street_name" class="block text-gray-700 text-sm font-semibold mb-2">Street Name:</label>
                         <input type="text" id="street_name" name="street_name"
-                            class="shadow border rounded w-full py-2 px-3 text-gray-800 focus:outline-none focus:shadow-outline"
-                            placeholder="Enter street name">
+                               class="shadow-md border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+                               placeholder="Enter street name">
                     </div>
 
                     <!-- Contact Details -->
                     <div>
-                        <label for="email" class="block text-yellow-500 text-sm font-bold mb-2">Email:</label>
+                        <label for="email" class="block text-gray-700 text-sm font-semibold mb-2">Email:</label>
                         <input type="email" id="email" name="email"
-                            class="shadow border rounded w-full py-2 px-3 text-gray-800 focus:outline-none focus:shadow-outline">
+                               class="shadow-md border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
                     <div>
-                        <label for="phone_number" class="block text-yellow-500 text-sm font-bold mb-2">Phone Number:</label>
+                        <label for="phone_number" class="block text-gray-700 text-sm font-semibold mb-2">Phone Number:</label>
                         <input type="tel" id="phone_number" name="phone_number"
-                            class="shadow border rounded w-full py-2 px-3 text-gray-800 focus:outline-none focus:shadow-outline">
+                               class="shadow-md border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
 
                     <!-- Incident Details -->
                     <div class="md:col-span-2">
-                        <label for="incident_details" class="block text-yellow-500 text-sm font-bold mb-2">Incident Details:</label>
+                        <label for="incident_details" class="block text-gray-700 text-sm font-semibold mb-2">Incident Details:</label>
                         <textarea id="incident_details" name="incident_details" rows="4"
-                                class="shadow border rounded w-full py-2 px-3 text-gray-800 focus:outline-none focus:shadow-outline"></textarea>
+                                  class="shadow-md border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"></textarea>
                     </div>
 
                     <!-- Upload Attachments -->
                     <div class="md:col-span-2">
-                        <label for="attachments" class="block text-yellow-500 text-sm font-bold mb-2">Upload Attachments:</label>
+                        <label for="attachments" class="block text-gray-700 text-sm font-semibold mb-2">Upload Attachments:</label>
                         <input type="file" id="attachments" name="attachments[]" multiple
-                            class="shadow border rounded w-full py-2 px-3 text-gray-800 focus:outline-none focus:shadow-outline">
+                               class="shadow-md border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
                 </div>
 
                 <!-- Buttons -->
-                <div class="flex items-center justify-between mt-4">
-                    <button class="bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none" type="submit">
+                <div class="flex items-center justify-between mt-6">
+                    <button class="bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 text-white font-bold py-2 px-4 rounded-full shadow-md transition-transform duration-300 ease-in-out transform hover:scale-105" type="submit">
                         Submit Report
                     </button>
-                    <button class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded focus:outline-none" type="button" onclick="document.getElementById('reportForm').classList.add('hidden')">
+                    <button class="bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white font-bold py-2 px-4 rounded-full shadow-md transition-transform duration-300 ease-in-out transform hover:scale-105" type="button" onclick="document.getElementById('reportForm').classList.add('hidden')">
                         Close
                     </button>
                 </div>
             </form>
         </div>
-
     </div>
 </div>
 
