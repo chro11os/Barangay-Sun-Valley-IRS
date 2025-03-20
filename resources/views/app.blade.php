@@ -46,6 +46,7 @@
         </div>
 
         <div class="flex items-center space-x-4">
+
             @guest
                 <a href="{{ route('login') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Login</a>
                 <a href="{{ route('register') }}" class="btn text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-gray-700">Register</a>
@@ -89,6 +90,20 @@
 </nav>
 
 <div class="container mx-auto p-7 flex justify-center items-center h-screen">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        @foreach($articles as $article)
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-bold mb-2">{{ $article->title }}</h2>
+                    <p class="text-gray-700 text-sm mb-4">{{ Str::limit($article->summary, 100) }}</p>
+                    <a href="{{ $article->link }}" target="_blank" class="btn bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded">
+                        Read More
+                    </a>
+                </div>
+            </div>
+        @endforeach
+    </div>
 
     <div class="bg-green-700 shadow-md shadow-green-950 rounded-lg p-8 text-center w-full md:w-3/4 lg:w-1/2">
         <h1 class="text-4xl font-bold mb-4 text-yellow-500">Sun-Valley Incident Report System</h1>
