@@ -1,10 +1,10 @@
 // src/components/App.jsx
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import IncidentTable from "./IncidentTable";
 import IncidentViewOnlyTable from "./IncidentViewOnlyTable";
 import { supabase } from "../supabaseClient"; // Corrected path
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import UserTable from "./UserTable"; // Ensure this path is correct
 
 const App = () => {
@@ -20,6 +20,8 @@ const App = () => {
         setShowUserTable((prev) => !prev);
     };
 
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedFilterValue, setSelectedFilterValue] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
     const [filterStatus, setFilterStatus] = useState("");
     const [filterMethod, setFilterMethod] = useState("");
@@ -28,9 +30,11 @@ const App = () => {
     const [filterMonth, setFilterMonth] = useState("");
     const [filterDay, setFilterDay] = useState("");
 
+    const [uniqueYears, setUniqueYears] = useState([]);
+    const [uniqueMonths, setUniqueMonths] = useState([]);
+    const [uniqueDays, setUniqueDays] = useState([]);
+
     useEffect(() => {
-        const storedData = localStorage.getItem("someKey");
-        const parsedData = storedData ? JSON.parse(storedData) : {};
         const fetchData = async () => {
             setLoading(true);
             try {
@@ -63,26 +67,42 @@ const App = () => {
                 if (incidentError) throw incidentError;
                 setIncidents(incidentData);
 
+                // Extract unique years, months, and days from the incident data
+                const years = new Set();
+                const months = new Set();
+                const days = new Set();
+
+                incidentData.forEach((incident) => {
+                    const incidentDate = new Date(incident.date_reported);
+                    years.add(incidentDate.getFullYear().toString());
+                    months.add((incidentDate.getMonth() + 1).toString().padStart(2, "0"));
+                    days.add(incidentDate.getDate().toString().padStart(2, "0"));
+                });
+
+                setUniqueYears([...years].sort((a, b) => b - a)); // Sort years descending
+                setUniqueMonths([...months]);
+                setUniqueDays([...days]);
+
                 const { data: statusData, error: statusError } = await supabase
                     .from("status")
                     .select("status");
 
                 if (statusError) throw statusError;
-                setStatuses(statusData.map(s => s.status));
+                setStatuses(statusData.map((s) => s.status));
 
                 const { data: methodData, error: methodError } = await supabase
                     .from("method")
                     .select("methodType");
 
                 if (methodError) throw methodError;
-                setMethods(methodData.map(m => m.methodType));
+                setMethods(methodData.map((m) => m.methodType));
 
                 const { data: incidentTypeData, error: incidentTypeError } = await supabase
                     .from("incident_type")
                     .select("incidentType");
 
                 if (incidentTypeError) throw incidentTypeError;
-                setIncidentTypes(incidentTypeData.map(it => it.incidentType));
+                setIncidentTypes(incidentTypeData.map((it) => it.incidentType));
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -93,13 +113,24 @@ const App = () => {
         fetchData();
     }, []);
 
+    const applyFilter = (category, value) => {
+        if (category === "Status") setFilterStatus(value);
+        if (category === "Method") setFilterMethod(value);
+        if (category === "Incident Type") setFilterIncidentType(value);
+        if (category === "Year") setFilterYear(value);
+        if (category === "Month") setFilterMonth(value);
+        if (category === "Day") setFilterDay(value);
+    };
+
     const filteredIncidents = incidents.filter((incident) => {
         const matchesSearch =
             searchQuery === "" ||
             incident.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
             incident.reporter_info?.incident_reporter_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            incident.reporter_info?.incident_reported_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            incident.update_id?.toLowerCase().includes(searchQuery.toLowerCase());
+            incident.reporter_info?.incident_suspect_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            incident.update_id?.toLowerCase().includes(searchQuery.toLowerCase())||
+            incident.location?.toLowerCase().includes(searchQuery.toLowerCase())||
+            incident.address?.toLowerCase().includes(searchQuery.toLowerCase());
 
         const matchesStatus = filterStatus === "" || (incident.incident_updates?.status?.status === filterStatus);
         const matchesMethod = filterMethod === "" || (incident.reporter_info?.method?.methodType === filterMethod);
@@ -115,14 +146,6 @@ const App = () => {
         const matchesDay = filterDay === "" || incidentDay === filterDay;
 
         return matchesSearch && matchesStatus && matchesMethod && matchesIncidentType && matchesYear && matchesMonth && matchesDay;
-    });
-
-
-    const viewOnlyIncidents = filteredIncidents;
-
-    const editableIncidents = filteredIncidents.filter((incident) => {
-        const status = incident.incident_updates?.status?.status;
-        return status && ["Pending", "In-Progress", "Completed"].includes(status);
     });
 
     if (loading) return <p>Loading incidents...</p>;
@@ -143,7 +166,7 @@ const App = () => {
                         {showUserTable ? "Back to Incidents" : "Edit Users"}
                     </button>
 
-                    {!showUserTable && ( // Hide this button when showUserTable is true
+                    {!showUserTable && (
                         <button
                             onClick={() => setViewMode(!viewMode)}
                             className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-md"
@@ -155,104 +178,58 @@ const App = () => {
             </div>
 
             {!showUserTable && (
-            <>
-            <div className="flex flex-nowrap gap-2 mb-4 overflow-x-auto">
-                <input
-                    type="text"
-                    placeholder="Search tracking number or name"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="p-2 border border-gray-300 rounded-md w-full sm:w-1/3"
-                />
+                <>
+                    <div className="flex flex-nowrap gap-2 mb-4 overflow-x-auto">
+                        <input
+                            type="text"
+                            placeholder="Search by reporter, reported name, tracking number, or location"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="p-2 border border-gray-300 rounded-md w-full mb-4"
+                        />
+                            
+                        <select
+                            value={selectedCategory}
+                            onChange={(e) => {
+                                setSelectedCategory(e.target.value);
+                                setSelectedFilterValue("");
+                            }}
+                            className="p-2 border border-gray-300 rounded-md min-w-max pr-8 mb-4" 
+                        >
+                            <option value="">Select Filter Category</option>
+                            <option value="Status">Status</option>
+                            <option value="Method">Method</option>
+                            <option value="Incident Type">Incident Type</option>
+                            <option value="Year">Year</option>
+                            <option value="Month">Month</option>
+                            <option value="Day">Day</option>
+                        </select>
 
-                <select
-                    value={filterYear}
-                    onChange={(e) => setFilterYear(e.target.value)}
-                    className="p-2 border border-gray-300 rounded-md w-full sm:w-1/4"
-                >
-                    <option value="">Filter by Year</option>
-                    {Array.from(new Set(incidents.map(i => new Date(i.date_reported).getFullYear()))).map(year => (
-                        <option key={year} value={year}>{year}</option>
-                    ))}
-                </select>
-
-                <select
-                    value={filterMonth}
-                    onChange={(e) => setFilterMonth(e.target.value)}
-                    className="p-2 border border-gray-300 rounded-md w-full sm:w-1/4"
-                >
-                    <option value="">Filter by Month</option>
-                    {Array.from({ length: 12 }, (_, i) => (i + 1).toString().padStart(2, "0")).map(month => (
-                        <option key={month} value={month}>{month}</option>
-                    ))}
-                </select>
-
-                <select
-                    value={filterDay}
-                    onChange={(e) => setFilterDay(e.target.value)}
-                    className="p-2 border border-gray-300 rounded-md w-full sm:w-1/4"
-                >
-                    <option value="">Filter by Day</option>
-                    {Array.from({ length: 31 }, (_, i) => (i + 1).toString().padStart(2, "0")).map(day => (
-                        <option key={day} value={day}>{day}</option>
-                    ))}
-                </select>
-            </div>
-
-            <div className="flex flex-nowrap gap-2 mb-4 overflow-x-auto">
-
-                <select
-                    value={filterMethod}
-                    onChange={(e) => setFilterMethod(e.target.value)}
-                    className="p-2 border border-gray-300 rounded-md w-full sm:w-1/4"
-                >
-                    <option value="">Filter by Method</option>
-                    {methods.map((method) => (
-                        <option key={method} value={method}>{method}</option>
-                    ))}
-                </select>
-
-                <select
-                    value={filterIncidentType}
-                    onChange={(e) => setFilterIncidentType(e.target.value)}
-                    className="p-2 border border-gray-300 rounded-md w-full sm:w-1/4"
-                >
-                    <option value="">Filter by Incident Type</option>
-                    {incidentTypes.map((type) => (
-                        <option key={type} value={type}>{type}</option>
-                    ))}
-                </select>
-
-
-                <select
-                    value={filterStatus}
-                    onChange={(e) => setFilterStatus(e.target.value)}
-                    className="p-2 border border-gray-300 rounded-md w-full sm:w-1/4"
-                >
-                    <option value="">Filter by Status</option>
-                    {statuses.map((status) => (
-                        <option key={status} value={status}>{status}</option>
-                    ))}
-                </select>
-
-            </div>
-            </>
+                        {selectedCategory && (
+                            <select
+                                value={selectedFilterValue}
+                                onChange={(e) => {
+                                    setSelectedFilterValue(e.target.value);
+                                    applyFilter(selectedCategory, e.target.value);
+                                }}
+                                className="p-2 border border-gray-300 rounded-md min-w-max pr-7 mb-4"
+                            >
+                                <option value="">Select {selectedCategory}</option>
+                                {selectedCategory === "Status" && statuses.map((s) => <option key={s} value={s}>{s}</option>)}
+                                {selectedCategory === "Method" && methods.map((m) => <option key={m} value={m}>{m}</option>)}
+                                {selectedCategory === "Incident Type" && incidentTypes.map((t) => <option key={t} value={t}>{t}</option>)}
+                                {selectedCategory === "Year" && uniqueYears.map((year) => (<option key={year} value={year}>{year}</option>))}
+                                {selectedCategory === "Month" && uniqueMonths.map((month) => (<option key={month} value={month}>{month}</option>))}
+                                {selectedCategory === "Day" && uniqueDays.map((day) => (<option key={day} value={day}>{day}</option>))}
+                            </select>
+                        )}
+                    </div>
+                </>
             )}
 
-            {/* Show UserTable if button is clicked, otherwise show incident tables */}
-            {showUserTable ? (
-                <UserTable />
-            ) : viewMode ? (
-                <IncidentViewOnlyTable incidents={viewOnlyIncidents} />
-            ) : (
-                <IncidentTable incidents={editableIncidents} />
-            )}
+            {showUserTable ? <UserTable /> : viewMode ? <IncidentViewOnlyTable incidents={filteredIncidents} /> : <IncidentTable incidents={filteredIncidents} />}
         </div>
     );
-};
- 
-App.propTypes = {
-
 };
 
 export default App;

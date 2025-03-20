@@ -77,6 +77,13 @@ const IncidentTable = ({ incidents }) => {
 
   };
 
+    // Filter the incidents to show only "Pending" or "In-Progress"
+    const filteredIncidents = incidents.filter(
+      (incident) => 
+        incident.incident_updates?.status?.status === "Pending" || 
+        incident.incident_updates?.status?.status === "In-Progress"
+    );
+
   return (
     <div>
       <table className="min-w-full bg-white shadow-md rounded border border-gray-300 mt-4">
@@ -89,20 +96,22 @@ const IncidentTable = ({ incidents }) => {
             <th className="py-2 px-4">Reporter</th>
             <th className="py-2 px-4">Reported</th>
             <th className="py-2 px-4">Incident Details</th>
+            <th className="py-2 px-4">Subdivision</th>
+            <th className="py-2 px-4">Address</th>
             <th className="py-2 px-4">Status</th>
             <th className="py-2 px-4">Description</th>
             <th className="py-2 px-4">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {incidents.length === 0 ? (
+          {filteredIncidents.length === 0 ? (
             <tr>
               <td colSpan="10" className="text-center py-4 text-gray-500">
                 No incidents found
               </td>
             </tr>
           ) : (
-            incidents.map((incident) => (
+            filteredIncidents.map((incident) => (
               <tr key={incident.incident_id} className="hover:bg-gray-100 text-sm md:text-base">
                 <td className="border px-4 py-2">{incident.update_id}</td>
                 <td className="border px-4 py-2">{incident.reporter_info?.method?.methodType || "N/A"}</td>
@@ -111,6 +120,9 @@ const IncidentTable = ({ incidents }) => {
                 <td className="border px-4 py-2">{incident.reporter_info?.incident_reporter_name || "N/A"}</td>
                 <td className="border px-4 py-2">{incident.reporter_info?.incident_suspect_name || "N/A"}</td>
                 <td className="border px-4 py-2">{incident.description}</td>
+                <td className="border px-4 py-2">{incident.location}</td>
+                <td className="border px-4 py-2">{incident.address}</td>
+                
 
                 {/* Status - Dropdown for Editing */}
                 <td className="border px-4 py-2">
@@ -179,6 +191,7 @@ const IncidentTable = ({ incidents }) => {
       </table>
     </div>
   );
+
 };
 
 export default IncidentTable;
